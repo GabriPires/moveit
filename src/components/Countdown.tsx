@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import styles from '../styles/components/Countdown.module.css';
 
 let countdownTimeout: NodeJS.Timeout;
@@ -49,23 +49,36 @@ export function Countdown() {
         </div>
       </div>
 
-      { isActive ? (
+      { hasFinished ? (
         <button
-          type="button"
-          className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
-          onClick={resetCountdown}
-        >
-          Abandonar ciclo
-        </button>
-      ) : (
-        <button
-        type="button"
+        disabled
         className={styles.countdownButton}
-        onClick={startCountdown}
       >
-        Iniciar um ciclo
+        Ciclo encerrado
       </button>
+      ) : (
+        <>
+          { isActive ? (
+            <button
+              type="button"
+              className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
+              onClick={resetCountdown}
+            >
+              Abandonar ciclo
+            </button>
+          ) : (
+            <button
+            type="button"
+            className={styles.countdownButton}
+            onClick={startCountdown}
+          >
+            Iniciar um ciclo
+          </button>
+          ) }
+        </>
       ) }
+
+      
     </div>
   );
 }
