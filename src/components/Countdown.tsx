@@ -4,8 +4,9 @@ import styles from '../styles/components/Countdown.module.css';
 let countdownTimeout: NodeJS.Timeout;
 
 export function Countdown() {
-  const [time, setTime] = useState(25 * 60);
+  const [time, setTime] = useState(0.05 * 60);
   const [isActive, setIsActive] = useState(false);
+  const [hasFinished, setHasFinished] = useState(false);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
@@ -20,6 +21,7 @@ export function Countdown() {
   function resetCountdown() {
     clearTimeout(countdownTimeout);
     setIsActive(false);
+    setTime(0.05 * 60);
   }
 
   useEffect(() => {
@@ -27,6 +29,9 @@ export function Countdown() {
       countdownTimeout = setTimeout(() => {
         setTime(time -1);
       }, 1000)
+    } else if (isActive && time === 0){
+      setHasFinished(true);
+      setIsActive(false);
     }
   }, [isActive, time])
 
